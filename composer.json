@@ -1,0 +1,41 @@
+{
+    "name": "dobryprogramator/doctrine-safe-types",
+    "description": "Doctrine types for thecodingmachine/safe package",
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "type": "library",
+    "require": {
+        "php": "^7.1",
+        "doctrine/orm": "^2.7",
+        "thecodingmachine/safe": "^1.1"
+    },
+    "require-dev": {
+        "phpstan/extension-installer": "^1.0",
+        "phpstan/phpstan": "^0.12.18",
+        "symplify/easy-coding-standard": "^7.2",
+        "thecodingmachine/phpstan-safe-rule": "^1.0"
+    },
+    "authors": [
+        {
+            "name": "Lukáš Holeczy",
+            "email": "info@lukasholeczy.eu"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "DobryProgramator\\DoctrineSafeTypes\\": "src/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "scripts": {
+        "phpstan": "vendor/bin/phpstan analyse -c phpstan.neon",
+        "ecs": "vendor/bin/ecs check src",
+        "ecs-fix": "vendor/bin/ecs check src --fix",
+        "check": [
+            "@phpstan",
+            "@ecs"
+        ]
+    }
+}
