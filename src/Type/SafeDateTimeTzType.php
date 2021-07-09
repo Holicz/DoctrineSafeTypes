@@ -40,4 +40,9 @@ class SafeDateTimeTzType extends DateTimeTzType
 
         return $dateTime;
     }
+
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
+    {
+        return true;
+    }
 }
