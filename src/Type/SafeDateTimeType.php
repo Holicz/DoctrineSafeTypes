@@ -40,4 +40,9 @@ class SafeDateTimeType extends DateTimeType
 
         return $dateTime;
     }
+
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
+    {
+        return true;
+    }
 }
