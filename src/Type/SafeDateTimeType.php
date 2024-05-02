@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace DobryProgramator\DoctrineSafeTypes\Type;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\DateTimeType;
+use Doctrine\DBAL\Types\Exception\InvalidFormat;
 use Safe\DateTime as SafeDateTime;
 use Safe\Exceptions\DatetimeException;
 
@@ -20,7 +20,7 @@ class SafeDateTimeType extends DateTimeType
     /**
      * @param mixed $value
      *
-     * @throws ConversionException
+     * @throws InvalidFormat
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?SafeDateTime
     {
@@ -31,7 +31,7 @@ class SafeDateTimeType extends DateTimeType
         try {
             $dateTime = SafeDateTime::createFromFormat($platform->getDateTimeFormatString(), $value);
         } catch (DatetimeException $e) {
-            throw ConversionException::conversionFailedFormat(
+            throw new InvalidFormat(
                 $value,
                 $this->getName(),
                 $platform->getDateTimeFormatString()
