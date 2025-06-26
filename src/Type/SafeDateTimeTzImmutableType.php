@@ -19,8 +19,6 @@ class SafeDateTimeTzImmutableType extends DateTimeTzImmutableType
 
     /**
      * @param mixed $value
-     *
-     * @throws InvalidFormat
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?SafeDateTimeImmutable
     {
@@ -28,14 +26,12 @@ class SafeDateTimeTzImmutableType extends DateTimeTzImmutableType
             return $value;
         }
 
+        assert(is_string($value), 'Expected value to be a string or null, got ' . get_debug_type($value));
+
         try {
             $dateTime = SafeDateTimeImmutable::createFromFormat($platform->getDateTimeTzFormatString(), $value);
         } catch (DatetimeException $e) {
-            throw new InvalidFormat(
-                $value,
-                $this->getName(),
-                $platform->getDateTimeTzFormatString()
-            );
+            throw InvalidFormat::new($value, $this->getName(), $platform->getDateTimeTzFormatString());
         }
 
         return $dateTime;

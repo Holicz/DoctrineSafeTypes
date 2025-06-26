@@ -2,22 +2,20 @@
 
 declare(strict_types=1);
 
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\EasyCodingStandard\ValueObject\Option;
-use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
+use PhpCsFixer\Fixer\Phpdoc\NoSuperfluousPhpdocTagsFixer;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator->parameters();
-    $parameters->set(Option::SETS, [
-        SetList::CLEAN_CODE,
-        SetList::COMMON,
-        SetList::DEAD_CODE,
-        SetList::PSR_12,
-        SetList::PHP_70,
-        SetList::PHP_71
-    ]);
-    $parameters->set(Option::PATHS, [__DIR__ . '/src']);
-    $parameters->set(Option::SKIP, [
-        PhpCsFixer\Fixer\Phpdoc\NoSuperfluousPhpdocTagsFixer::class => null,
-    ]);
-};
+return ECSConfig::configure()
+    ->withPaths([__DIR__ . '/src'])
+    ->withPreparedSets(
+        common: true,
+        symplify: true,
+        strict: true,
+        cleanCode: true,
+    )
+    ->withSkip(
+        [
+            NoSuperfluousPhpdocTagsFixer::class => null,
+        ]
+    )
+;

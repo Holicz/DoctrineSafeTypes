@@ -19,8 +19,6 @@ class SafeDateTimeType extends DateTimeType
 
     /**
      * @param mixed $value
-     *
-     * @throws InvalidFormat
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?SafeDateTime
     {
@@ -28,14 +26,12 @@ class SafeDateTimeType extends DateTimeType
             return $value;
         }
 
+        assert(is_string($value), 'Expected value to be a string or null, got ' . get_debug_type($value));
+
         try {
             $dateTime = SafeDateTime::createFromFormat($platform->getDateTimeFormatString(), $value);
         } catch (DatetimeException $e) {
-            throw new InvalidFormat(
-                $value,
-                $this->getName(),
-                $platform->getDateTimeFormatString()
-            );
+            throw InvalidFormat::new($value, $this->getName(), $platform->getDateTimeFormatString());
         }
 
         return $dateTime;
