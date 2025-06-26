@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace DobryProgramator\DoctrineSafeTypes\Type;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\DateImmutableType;
+use Doctrine\DBAL\Types\Exception\InvalidFormat;
 use Safe\DateTimeImmutable as SafeDateTimeImmutable;
 use Safe\Exceptions\DatetimeException;
 
@@ -20,7 +20,7 @@ class SafeDateImmutableType extends DateImmutableType
     /**
      * @param mixed $value
      *
-     * @throws ConversionException
+     * @throws InvalidFormat
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?SafeDateTimeImmutable
     {
@@ -31,7 +31,7 @@ class SafeDateImmutableType extends DateImmutableType
         try {
             $dateTime = SafeDateTimeImmutable::createFromFormat('!' . $platform->getDateFormatString(), $value);
         } catch (DatetimeException $e) {
-            throw ConversionException::conversionFailedFormat(
+            throw new InvalidFormat(
                 $value,
                 $this->getName(),
                 $platform->getDateFormatString()

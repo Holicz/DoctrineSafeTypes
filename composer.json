@@ -5,8 +5,8 @@
     "license": "MIT",
     "type": "library",
     "require": {
-        "php": "^7.1|^8.0",
-        "doctrine/orm": "^2.7",
+        "php": ">=7.4",
+        "doctrine/dbal": "^3.0|^4.0",
         "thecodingmachine/safe": "^1.1|^2.0"
     },
     "require-dev": {
